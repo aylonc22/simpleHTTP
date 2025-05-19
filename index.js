@@ -1,30 +1,27 @@
 const net = require('net');
+const parseRequest = require('./src/parseRequest');
+const routeRequest = require('./src/router');
 
 const server = net.createServer((socket) => {
   socket.on('data', (chunk) => {
-    const request = chunk.toString();
-    console.log('📥 Incoming request:');
-    console.log(request);
+    const raw = chunk.toString();
+    const req = parseRequest(raw);
 
-    // A minimal valid HTTP response
-    const body = 'Hello from SimpleHTTP!';
+    const res = routeRequest(req.method, req.path);
+
     const response = 
-      'HTTP/1.1 200 OK\r\n' +
-      'Content-Type: text/plain\r\n' +
-      `Content-Length: ${Buffer.byteLength(body)}\r\n` +
-      '\r\n' +
-      body;
+      `HTTP/1.1 ${res.status} OK\r\n` +
+      `Content-Type: ${res.contentType}\r\n` +
+      `Content-Length: ${Buffer.byteLength(res.body)}\r\n` +
+      `\r\n` +
+      res.body;
 
     socket.write(response);
-    socket.end(); // close connection after sending response
-  });
-
-  socket.on('error', (err) => {
-    console.error('Socket error:', err);
+    socket.end();
   });
 });
 
-const PORT = 3000;
+const PORT = 3003;
 server.listen(PORT, () => {
   console.log(`🟢 SimpleHTTP running at http://localhost:${PORT}`);
 });
