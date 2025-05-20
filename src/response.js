@@ -22,11 +22,24 @@ function createResponse({ status = 200, contentType = 'text/plain', body = '', h
   function notFound(message = '404 Not Found') {
     return text(message, 404);
   }
+
+  function redirect(location, status = 302) {
+    return {
+      status,
+      contentType: 'text/plain',
+      body: `Redirecting to ${location}`,
+      headers: {
+        Location: location,
+      },
+    };
+  }
+  
   
   module.exports = {
     createResponse,
     text,
     json,
     notFound,
+    redirect,
   };
   

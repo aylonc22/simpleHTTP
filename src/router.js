@@ -1,4 +1,5 @@
-const { text, json, notFound } = require('./response');
+const { log } = require('./logger');
+const { text, json, notFound, redirect } = require('./response');
 const serveStaticFile = require('./static');
 
 const routes = {
@@ -7,7 +8,9 @@ const routes = {
   'POST /submit': (req) =>{
     const { name } = req.parsedBody || {};
     const message = name ? `Hello, ${name}!` : 'Form received!';
-    return json({ message });
+    log(message);
+    
+    return redirect('/form.html');
   },
 };
 
