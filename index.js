@@ -6,6 +6,7 @@ const logger = require('./src/middleware/logger');
 const SimpleHTTP = require('./src/app');
 const parseBody = require('./src/middleware/parseBody');
 const router = require('./src/middleware/router');
+const cors = require('./src/middleware/cors');
 
 const args = process.argv.slice(2);
 setVerbose(args.includes('-v'));
@@ -14,6 +15,7 @@ const app = new SimpleHTTP();
 app.use(logger);
 app.use(parseBody);
 app.use(router);
+app.use(cors);
 
 
 
