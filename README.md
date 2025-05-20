@@ -38,4 +38,4 @@ This project aims to:
 ```bash
 git clone https://github.com/aylonc22/simplehttp
 cd simplehttp
-node server.js
+node index.js
