@@ -1,8 +1,9 @@
-function createResponse({ status = 200, contentType = 'text/plain', body = '' }) {
+function createResponse({ status = 200, contentType = 'text/plain', body = '', headers = {} }) {
     return {
       status,
       contentType,
       body,
+      headers,
     };
   }
   

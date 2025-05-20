@@ -21,6 +21,9 @@ function serveStaticFile(reqPath) {
       body: data,
       status: 200,
       contentType: type,
+      headers:{
+        'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
+      }
     });
   } catch (err) {
     return null; // File not found or error
