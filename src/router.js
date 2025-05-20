@@ -6,7 +6,13 @@ const routes = {
   'GET /': (req) => text('Welcome to SimpleHTTP!'),
   'GET /about': (req) => text('This is the about page.'),
   'POST /submit': (req) =>{
-    const { name } = req.parsedBody || {};
+    if (!req.parsedBody || typeof req.parsedBody !== 'object') {
+        return badRequest('Invalid body format');
+      }
+    
+    const { name } = req.parsedBody;
+    if (!name) return badRequest('Missing "name" field');
+   
     const message = name ? `Hello, ${name}!` : 'Form received!';
     log(message);
     

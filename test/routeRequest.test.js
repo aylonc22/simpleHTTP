@@ -28,17 +28,15 @@ assert.strictEqual(res.body, 'This is the about page.');
 res = routeRequest(mockReq('POST', '/submit', '{"name":"Aylon"}', {
   'content-type': 'application/json',
 }));
-assert.strictEqual(res.status, 200);
-assert.strictEqual(res.contentType, 'application/json');
-assert.deepStrictEqual(JSON.parse(res.body), { message: 'Hello, Aylon!' });
+assert.strictEqual(res.status, 302);
+assert.deepStrictEqual(res.headers['Location'], '/form.html?success=1');
 
 // Test valid POST /submit (form-encoded)
 res = routeRequest(mockReq('POST', '/submit', 'name=Aylon', {
   'content-type': 'application/x-www-form-urlencoded',
 }));
-assert.strictEqual(res.status, 200);
-assert.strictEqual(res.contentType, 'application/json');
-assert.deepStrictEqual(JSON.parse(res.body), { message: 'Hello, Aylon!' });
+assert.strictEqual(res.status, 302);
+assert.deepStrictEqual(res.headers['Location'], '/form.html?success=1');
 
 // Test unknown route
 res = routeRequest(mockReq('GET', '/not-found'));

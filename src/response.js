@@ -19,6 +19,14 @@ function createResponse({ status = 200, contentType = 'text/plain', body = '', h
     });
   }
   
+  function badRequest(message = '400 Bad Request') {
+    return createResponse({
+      status: 400,
+      contentType: 'text/plain',
+      body: message,
+    });
+  }
+
   function notFound(message = '404 Not Found') {
     return text(message, 404);
   }
@@ -39,6 +47,7 @@ function createResponse({ status = 200, contentType = 'text/plain', body = '', h
     createResponse,
     text,
     json,
+    badRequest,
     notFound,
     redirect,
   };
