@@ -5,9 +5,9 @@ const runMiddleware = require('./src/middleware');
 const logger = require('./src/middleware/logger');
 const SimpleHTTP = require('./src/app');
 const parseBody = require('./src/middleware/parseBody');
-const router = require('./src/middleware/router');
 const cors = require('./src/middleware/cors');
 const staticFallBack = require('./src/middleware/staticFallBack');
+const rateLimit = require('./src/middleware/rateLimit');
 
 const args = process.argv.slice(2);
 setVerbose(args.includes('-v'));
@@ -15,8 +15,8 @@ setVerbose(args.includes('-v'));
 const app = new SimpleHTTP();
 app.use(logger);
 app.use(parseBody);
-app.use(router);
 app.use(cors);
+app.use(rateLimit({windowMs:60_000, max:5}));
 app.use(staticFallBack);
 
 
