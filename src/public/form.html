@@ -45,10 +45,25 @@
     button:hover {
       background-color: #1f6ed8;
     }
+
+    .success {
+      background-color: #e0ffe0;
+      color: #2b662b;
+      padding: 10px;
+      border: 1px solid #88cc88;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
   </style>
 </head>
 <body>
   <h1>Contact Form</h1>
+
+  <!-- ✅ Success message (hidden by default) -->
+  <div id="successMessage" class="success" style="display:none;">
+    ✅ Thank you! Your form was submitted.
+  </div>
+
   <form action="/submit" method="POST">
     <label>
       Name:
@@ -60,5 +75,13 @@
     </label>
     <button type="submit">Send</button>
   </form>
+
+  <script>
+    // ✅ Show success message if URL has ?success=1
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === '1') {
+      document.getElementById('successMessage').style.display = 'block';
+    }
+  </script>
 </body>
 </html>

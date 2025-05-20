@@ -10,7 +10,7 @@ const routes = {
     const message = name ? `Hello, ${name}!` : 'Form received!';
     log(message);
     
-    return redirect('/form.html');
+    return redirect('/form.html?success=1');
   },
 };
 
@@ -19,8 +19,11 @@ function routeRequest(req) {
   const handler = routes[key];
   if(handler) return handler(req);
 
+  // Strip query string before static lookup
+  const pathOnly = req.path.split('?')[0];
+  
   // Try serve static files from /public
-  const statisRes = serveStaticFile(req.path);
+  const statisRes = serveStaticFile(pathOnly);
   return statisRes || notFound();
 }
 
