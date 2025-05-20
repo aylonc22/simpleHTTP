@@ -7,6 +7,7 @@ const SimpleHTTP = require('./src/app');
 const parseBody = require('./src/middleware/parseBody');
 const router = require('./src/middleware/router');
 const cors = require('./src/middleware/cors');
+const staticFallBack = require('./src/middleware/staticFallBack');
 
 const args = process.argv.slice(2);
 setVerbose(args.includes('-v'));
@@ -16,8 +17,34 @@ app.use(logger);
 app.use(parseBody);
 app.use(router);
 app.use(cors);
+app.use(staticFallBack);
 
 
+// ✅ Register routes
+app.get('/', (req, res) => {
+  res.status = 200;
+  res.contentType = 'text/plain';
+  res.body = 'Welcome to SimpleHTTP!';
+});
+
+app.get('/about', (req, res) => {
+  res.status = 200;
+  res.contentType = 'text/plain';
+  res.body = 'This is the about page.';
+});
+
+app.post('/submit', (req, res) => {
+  const { name } = req.parsedBody || {};
+  if (!name) {
+    res.status = 400;
+    res.contentType = 'text/plain';
+    res.body = 'Missing name';
+    return;
+  }
+  res.status = 302;
+  res.headers = { Location: '/form.html?success=1' };
+  res.body = '';
+});
 
 const STATUS_MESSAGES = {
   200: 'OK',
