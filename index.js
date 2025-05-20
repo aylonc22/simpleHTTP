@@ -7,7 +7,7 @@ const server = net.createServer((socket) => {
     const raw = chunk.toString();
     const req = parseRequest(raw);
 
-    const res = routeRequest(req.method, req.path);
+    const res = routeRequest(req);
 
     const response = 
       `HTTP/1.1 ${res.status} OK\r\n` +
