@@ -1,5 +1,5 @@
 const { log } = require('./logger');
-const { text, json, notFound, redirect } = require('./response');
+const { text, json, notFound, redirect, badRequest } = require('./response');
 const serveStaticFile = require('./static');
 
 const routes = {
