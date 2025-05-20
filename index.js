@@ -2,15 +2,20 @@ const net = require('net');
 const parseRequest = require('./src/parseRequest');
 const { log, setVerbose } = require('./src/logger');
 const runMiddleware = require('./src/middleware');
-
 const logger = require('./src/middleware/logger');
-const parseBodyMiddleware = require('./src/middleware/parseBody');
-const routerMiddleware = require('./src/middleware/router');
+const SimpleHTTP = require('./src/app');
+const parseBody = require('./src/middleware/parseBody');
+const router = require('./src/middleware/router');
 
 const args = process.argv.slice(2);
 setVerbose(args.includes('-v'));
 
-const middlewareStack = [logger, parseBodyMiddleware, routerMiddleware];
+const app = new SimpleHTTP();
+app.use(logger);
+app.use(parseBody);
+app.use(router);
+
+
 
 const STATUS_MESSAGES = {
   200: 'OK',
@@ -33,10 +38,9 @@ const server = net.createServer((socket) => {
         body: 'Not Found'
       };
 
-      runMiddleware(req, res, middlewareStack, () => {
-        log(`${res.status} ${res.contentType}`);
+      app.handle(req, res);
 
-        const statusMessage = STATUS_MESSAGES[res.status] || 'OK';
+      const statusMessage = STATUS_MESSAGES[res.status] || 'OK';
 
         const response =
           `HTTP/1.1 ${res.status} ${statusMessage}\r\n` +
@@ -50,7 +54,6 @@ const server = net.createServer((socket) => {
 
         socket.write(response);
         socket.end();
-      });
 
     } catch (err) {
       console.error('🔥 Server error:', err.message);
