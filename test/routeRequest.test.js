@@ -1,5 +1,6 @@
 const assert = require('assert');
 const routeRequest = require('../src/router');
+const parseBody = require('../src/parseBody');
 
 // Helper to create mock request objects
 function mockReq(method, path, body = '', headers = {}) {
@@ -7,7 +8,8 @@ function mockReq(method, path, body = '', headers = {}) {
     method,
     path,
     headers,
-    body
+    body,
+    parsedBody: parseBody(body, headers)
   };
 }
 
@@ -22,9 +24,17 @@ res = routeRequest(mockReq('GET', '/about'));
 assert.strictEqual(res.status, 200);
 assert.strictEqual(res.body, 'This is the about page.');
 
-// Test valid POST /submit
+// Test valid POST /submit (JSON)
 res = routeRequest(mockReq('POST', '/submit', '{"name":"Aylon"}', {
   'content-type': 'application/json',
+}));
+assert.strictEqual(res.status, 200);
+assert.strictEqual(res.contentType, 'application/json');
+assert.deepStrictEqual(JSON.parse(res.body), { message: 'Hello, Aylon!' });
+
+// Test valid POST /submit (form-encoded)
+res = routeRequest(mockReq('POST', '/submit', 'name=Aylon', {
+  'content-type': 'application/x-www-form-urlencoded',
 }));
 assert.strictEqual(res.status, 200);
 assert.strictEqual(res.contentType, 'application/json');
