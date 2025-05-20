@@ -2,36 +2,47 @@
 
 A minimal, educational HTTP server built from scratch using Node.js sockets — no frameworks, no shortcuts.
 
+---
+
 ## 🚀 What is SimpleHTTP?
 
-**simpleHTTP** is a lightweight web server written entirely using Node.js's low-level `net` module. It's designed for learning purposes — to understand how HTTP actually works under the hood.
+**SimpleHTTP** is a lightweight web server implemented entirely with Node.js's low-level `net` module (not `http`). It's designed as a learning project to expose the raw mechanics of HTTP — from TCP connections to full routing and middleware support.
 
-You'll see:
-- Raw TCP connections
-- Manual parsing of HTTP requests
-- Custom routing logic
-- Serving static files
-- Building JSON APIs
-- And more
+You’ll explore:
+- TCP socket handling and raw data parsing
+- Manual construction of HTTP requests and responses
+- A full middleware system (Express-style)
+- Static file serving, JSON APIs, form handling
+- Rate limiting, CORS, redirect logic, and more
 
-## 🧠 Why?
+---
 
-Most developers use tools like Express, Fastify, or Next.js without ever seeing how an HTTP server *really* works.
+## 🧠 Why Build This?
 
-This project aims to:
-- Teach the fundamentals of HTTP
-- Build appreciation for what frameworks do
-- Serve as a foundation for deeper backend learning
+Most developers use Express, Fastify, or Next.js without ever seeing what an HTTP server **actually** does under the hood.
+
+This project was built to:
+- Learn the **fundamentals of HTTP and TCP**
+- Develop appreciation for what web frameworks abstract away
+- Build a base for deeper backend engineering skills
+- Gain experience writing extensible, testable server logic from scratch
+
+---
 
 ## 📦 Features
 
-- Raw HTTP over TCP (no `http` module)
-- Manual request parsing (GET/POST, headers, body)
-- Custom routing system
-- Serve static files from a `public/` folder
-- JSON response support
-- Simple status code handling
-- Fully extensible
+✅ Built from scratch with `net.createServer()`  
+✅ Custom HTTP request parser (method, path, headers, body)  
+✅ Express-style `app.get()`, `app.post()` routing  
+✅ Middleware system (`app.use()`) with `next()` support  
+✅ Serve static files from a `public/` folder  
+✅ Handle forms, redirects, and content types  
+✅ CORS middleware  
+✅ Rate limiting middleware  
+✅ Detailed and isolated unit tests for every module  
+✅ Custom logging with `-v` verbose mode
+
+---
 
 ## 🔧 Getting Started
 
